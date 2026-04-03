@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.Python
+venv/
+.venv/
+*.csv
+ollama_cache.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Large XML (optional – if you decide to exclude lsj_combined.xml)
+lsj_combined.xml
