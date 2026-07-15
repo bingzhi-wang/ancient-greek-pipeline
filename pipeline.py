@@ -635,6 +635,22 @@ def ollama_enrich(lemma: str, pos: str, raw_defn: str, context_sentence: str) ->
 # --------------------------------------------------
 # STEP 7 — Enrich tokens
 # --------------------------------------------------
+<<<<<<< HEAD
+def enrich(entries, freq_table, use_llm=True):
+    """
+    For each lemma:
+      1. Look up definition via Wiktionary → local LSJ.
+      2. (optional) Call Ollama (qwen3:4b) for best_sense + classical example.
+      3. Cache Ollama results to ollama_cache.json after every call.
+
+    If use_llm is False, the Ollama step is skipped entirely — the pipeline
+    still produces definitions, frequencies, and examples from Wiktionary,
+    just without the LLM-selected best sense. This lets the tool run for
+    people who don't have Ollama installed.
+    """
+    _load_cache()
+    empty = {"best_sense": "", "example_grc": "", "example_eng": ""}
+=======
 def enrich(entries, freq_table):
     """
     For each lemma:
@@ -643,18 +659,31 @@ def enrich(entries, freq_table):
       3. Cache Ollama results to ollama_cache.json after every call.
     """
     _load_cache()
+>>>>>>> d9d61fc7975929ba43bfb646951de9f2eab8e770
     output = []
     for e in tqdm(entries):
         definition, wiki_example = lookup_definition(e["lemma"])
         freq    = freq_table.get(e["lemma"], {"count": 0, "rank": 0, "tag": "rare"})
         context = e.get("sentence", "")
 
+<<<<<<< HEAD
+        if use_llm:
+            enriched = ollama_enrich(
+                lemma            = e["lemma"],
+                pos              = e.get("pos", ""),
+                raw_defn         = definition,
+                context_sentence = context,
+            )
+        else:
+            enriched = empty
+=======
         enriched = ollama_enrich(
             lemma            = e["lemma"],
             pos              = e.get("pos", ""),
             raw_defn         = definition,
             context_sentence = context,
         )
+>>>>>>> d9d61fc7975929ba43bfb646951de9f2eab8e770
 
         output.append({
             "word":        e["word"],
@@ -713,9 +742,21 @@ def write_chapter_csvs(entries):
 # --------------------------------------------------
 # MAIN
 # --------------------------------------------------
+<<<<<<< HEAD
+def main(input_text=INPUT_TEXT, output_csv=OUTPUT_CSV,
+         use_llm=True, ollama_model=OLLAMA_MODEL):
+    # If the caller picked a different Ollama model, apply it globally so
+    # ollama_enrich() (which reads the module-level OLLAMA_MODEL) uses it.
+    global OLLAMA_MODEL
+    OLLAMA_MODEL = ollama_model
+
+    print("Loading text...")
+    text = load_text(input_text)
+=======
 def main():
     print("Loading text...")
     text = load_text(INPUT_TEXT)
+>>>>>>> d9d61fc7975929ba43bfb646951de9f2eab8e770
 
     find_book_headings(text)
 
@@ -748,16 +789,29 @@ def main():
     top5_str = ", ".join(f"{l} ({v['count']}x)" for l, v in top5)
     print(f"  Top 5 lemmas: {top5_str}")
 
+<<<<<<< HEAD
+    if use_llm:
+        print("Looking up definitions + Ollama enrichment...")
+    else:
+        print("Looking up definitions (LLM enrichment disabled)...")
+    entries = enrich(tokens, freq_table, use_llm=use_llm)
+=======
     print("Looking up definitions + Ollama enrichment...")
     entries = enrich(tokens, freq_table)
+>>>>>>> d9d61fc7975929ba43bfb646951de9f2eab8e770
 
     print("Post-validating and cleaning entries...")
     entries = post_validate(entries)
     print(f"  {len(entries)} entries after validation")
 
     print("Writing master CSV...")
+<<<<<<< HEAD
+    write_csv(entries, output_csv)
+    print(f"  → {output_csv}")
+=======
     write_csv(entries)
     print(f"  → {OUTPUT_CSV}")
+>>>>>>> d9d61fc7975929ba43bfb646951de9f2eab8e770
 
     print("Writing per-chapter CSVs...")
     write_chapter_csvs(entries)

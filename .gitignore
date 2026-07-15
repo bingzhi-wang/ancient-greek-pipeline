@@ -1,6 +1,30 @@
 # Python
 __pycache__/
 *.py[cod]
+<<<<<<< HEAD
+*.egg-info/
+build/
+dist/
+
+# Virtual environments (torch/CUDA live here — never commit)
+.venv/
+venv/
+env/
+
+# Downloaded source texts (CC BY-SA; large)
+sources/
+
+# Generated output
+vocab.csv
+vocab_*.csv
+ollama_cache.json
+
+# OS / editor cruft
+.DS_Store
+.idea/
+.vscode/
+*.swp
+=======
 *.so
 .Python
 venv/
@@ -13,4 +37,7 @@ ollama_cache.json
 Thumbs.db
 
 # Large XML (optional – if you decide to exclude lsj_combined.xml)
+lsj_combined.xml
+>>>>>>> d9d61fc7975929ba43bfb646951de9f2eab8e770
+lsj_combined.xml
 lsj_combined.xml

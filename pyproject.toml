@@ -1,0 +1,57 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ancient-greek-pipeline"
+version = "0.1.0"
+description = "Build an Ancient Greek vocabulary list from any text: CLTK lemmatisation, LSJ + Wiktionary definitions, and optional local-LLM sense selection."
+readme = "README.md"
+license = { file = "LICENSE" }
+requires-python = ">=3.8"
+authors = [{ name = "Bingzhi Wang" }]
+keywords = [
+  "ancient-greek",
+  "classics",
+  "digital-humanities",
+  "nlp",
+  "lemmatization",
+  "lexicon",
+  "lsj",
+  "cltk",
+  "ollama",
+  "vocabulary",
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Education",
+  "Intended Audience :: Science/Research",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Topic :: Text Processing :: Linguistic",
+  "Natural Language :: Greek",
+]
+
+# Keep this in sync with requirements.txt — replace with your actual pins.
+dependencies = [
+  "cltk",
+  "requests",
+  "beautifulsoup4",
+]
+
+[project.optional-dependencies]
+llm = ["ollama"]
+
+[project.urls]
+Homepage = "https://github.com/bingzhi-wang/ancient-greek-pipeline"
+Repository = "https://github.com/bingzhi-wang/ancient-greek-pipeline"
+Issues = "https://github.com/bingzhi-wang/ancient-greek-pipeline/issues"
+
+[project.scripts]
+ancient-greek-pipeline = "ancient_greek_pipeline.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+ancient_greek_pipeline = ["py.typed"]
